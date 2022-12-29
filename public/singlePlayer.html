@@ -15,39 +15,40 @@
 
 <body>
     <div class="container">
-        <div class="battlechip-grid grid-user"></div>
-        <div class="battlechip-grid grid-cpu"></div>
+        <div class="battleship-grid grid-user"></div>
+        <div class="battleship-grid grid-cpu"></div>
     </div>
     <div class="container hidden-info">
-        <div class="setip-buttons" id="setup-buttons"><button id="start" class="btn">Comenzar Partida</button>
-            <button id="rotate" class="btn"></button>
+        <div class="setip-buttons" id="setup-buttons">Comenzar Partida<button id="start" class="btn">Comenzar
+                Partida</button>
+            <button id="rotate" class="btn">Rotar Barco</button>
         </div>
-        <h3 id="turno" class="info-text">Tu turno</h3>
+        <h3 id="turn" class="info-text">Tu turno</h3>
         <h3 id="info" class="info-text"></h3>
     </div>
     <div class="container">
         <div class="grid-display">
-            <div draggable="true" class="chip destroyer-container">
+            <div draggable="true" class="ship destroyer-container">
                 <div id="destroller-0"></div>
                 <div id="destroller-1"></div>
             </div>
-            <div draggable="true" class="chip submarine-container">
+            <div draggable="true" class="ship submarine-container">
                 <div id="submarine-0"></div>
                 <div id="submarine-1"></div>
                 <div id="submarine-2"></div>
             </div>
-            <div draggable="true" class="chip crusier-container">
+            <div draggable="true" class="ship crusier-container">
                 <div id="crusier-0"></div>
                 <div id="crusier-1"></div>
                 <div id="crusier-2"></div>
             </div>
-            <div draggable="true" class="chip battleship-container">
+            <div draggable="true" class="ship battleship-container">
                 <div id="battleship-0"></div>
                 <div id="battleship-1"></div>
                 <div id="battleship-2"></div>
                 <div id="battleship-3"></div>
             </div>
-            <div draggable="true" class="chip carrier-container">
+            <div draggable="true" class="ship carrier-container">
                 <div id="carrier-0"></div>
                 <div id="carrier-1"></div>
                 <div id="carrier-2"></div>
