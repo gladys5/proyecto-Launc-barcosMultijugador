@@ -26,7 +26,7 @@ document.addEventListener("DOMContentLoaded", () => {
   let allShipsPaced = false
   let playerNum = 0
   let shotsFired = -1
-  let currenPlayer = "user"
+  let currentPlayer = "user"
   let isHorizontal = true
   const shipsArray = [
     {
@@ -84,17 +84,51 @@ document.addEventListener("DOMContentLoaded", () => {
       squares.push(square)
     }
   }
+  //definiendo turnos
+  function playGameSingle() {
+    if (isGameOver) return
+    if (currentPlayer === "user") {
+      turnDisplay.innerHTML = "Tu turno"
+      cpuSquares.forEach((square) =>
+        square.addEventListener("click", function (e) {
+          shotsFired = square.dataset.id
+          revealSquare(square.classList)
+        })
+      )
+    }
+    if (currentPlayer === "enemy") {
+      turnDisplay.innerHTML = "Turno enemigo"
+      setTimeout(enemyGo, 1000)
+    }
+  }
   function startSingleplayer() {}
   //generando el posicionamiento random y evitanto que se desborde de la cuadrilla y verificando si esta tomada la casilla
-  function generar(ship) {
+  function generate(ship) {
     let randomDirection = Math.floor(Math.random() * ship.directions.length)
     let current = ship.directions[randomDirection]
-    if (randomDirection === 0) directions = 1
-    if (randomDirection === 1) directions = 10
-    const isTaken = current.some((index) =>
-      cpuSquares[index].classList.contains("taken")
+    if (randomDirection === 0) direction = 1
+    if (randomDirection === 1) direction = 10
+    let randomStart = Math.abs(
+      Math.floor(
+        Math.random() * cpuSquares.length -
+          ship.directions[0].length * direction
+      )
     )
-    const isAtRigthEdge = current.some((index) => index % width === width - 1)
-    const isAtLeftEdge = current.some((index) => index % width === width - 0)
+
+    const isTaken = current.some((index) =>
+      cpuSquares[randomStart + index].classList.contains("taken")
+    )
+    const isAtRightEdge = current.some(
+      (index) => (randomStart + index) % width === width - 1
+    )
+    const isAtLeftEdge = current.some(
+      (index) => (randomStart + index) % width === 0
+    )
+
+    if (!isTaken && !isAtRightEdge && !isAtLeftEdge)
+      current.forEach((index) =>
+        cpuSquares[randomStart + index].classList.add("taken", ship.name)
+      )
+    else generate(ship)
   }
 })
