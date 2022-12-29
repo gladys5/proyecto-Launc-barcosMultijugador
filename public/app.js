@@ -131,4 +131,42 @@ document.addEventListener("DOMContentLoaded", () => {
       )
     else generate(ship)
   }
+  //multijugador
+  function startMultiPlayer() {
+    const socket = io()
+
+    // Obten tu número de jugador del server
+    socket.on("player-number", (num) => {
+      if (num === -1) {
+        infoDisplay.innerHTML = "El servidor esta lleno"
+      } else {
+        playerNum = parseInt(num)
+        if (playerNum === 1) currentPlayer = "enemy"
+
+        console.log(playerNum)
+
+        // Revisa el status de los otros jugadores
+        socket.emit("check-players")
+      }
+    })
+  }
+  // Si el otro jugador se ha desconectado o conectado
+  socket.on("player-connection", (num) => {
+    console.log(`Jugador ${num} se fue`)
+    playerConnectedOrDisconnected(num)
+  })
+  socket.on("enemy-ready", (num) => {
+    enemyReady = true
+    playerReady(num)
+    if (ready) {
+      playGameMulti(socket)
+      setupButtons.style.display = "none"
+    }
+  })
+  function playerisConnected(num) {
+    let player = `.p${parseInt(num) + 1}`
+    document.querySelector(`${player} .connected`).classList.toggle("active")
+    if (parseInt(num) === playerNum)
+      document.querySelector(player).style.fontWeigth = "bold"
+  }
 })
