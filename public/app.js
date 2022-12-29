@@ -15,7 +15,11 @@ document.addEventListener("DOMContentLoaded", () => {
   const turnDisplay = document.querySelector("#turn")
   const infoDisplay = document.querySelector("#info")
   const setupButtons = document.querySelector("setup-buttons")
+
   let width = 10
+  const userSquares = []
+  const cpuSquares = []
+
   let isGameOver = false
   let ready = false
   let enemyReady = false
@@ -63,13 +67,34 @@ document.addEventListener("DOMContentLoaded", () => {
       ],
     },
   ]
-})
-//creando la cuadrilla
-function createBoard(grid, squares) {
-  for (let i = 0; i < width * width; i++) {
-    const square = document.createElement("div")
-    square.dataset.id = i
-    grid.appendChild(square)
-    squares.push(square)
+
+  createBoard(userGrid, userSquares)
+  createBoard(cpuGrid, cpuSquares)
+  if (gameMode === "singlePlayer") {
+    startSingleplayer()
+  } else {
+    startMultiplayer()
   }
-}
+  //creando la cuadrilla
+  function createBoard(grid, squares) {
+    for (let i = 0; i < width * width; i++) {
+      const square = document.createElement("div")
+      square.dataset.id = i
+      grid.appendChild(square)
+      squares.push(square)
+    }
+  }
+  function startSingleplayer() {}
+  //generando el posicionamiento random y evitanto que se desborde de la cuadrilla y verificando si esta tomada la casilla
+  function generar(ship) {
+    let randomDirection = Math.floor(Math.random() * ship.directions.length)
+    let current = ship.directions[randomDirection]
+    if (randomDirection === 0) directions = 1
+    if (randomDirection === 1) directions = 10
+    const isTaken = current.some((index) =>
+      cpuSquares[index].classList.contains("taken")
+    )
+    const isAtRigthEdge = current.some((index) => index % width === width - 1)
+    const isAtLeftEdge = current.some((index) => index % width === width - 0)
+  }
+})
